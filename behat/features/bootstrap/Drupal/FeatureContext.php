@@ -360,18 +360,23 @@ class FeatureContext extends RawDrupalContext {
    */
   public function roleOnlyContentPermissions($bundle, TableNode $rolesTable) {
     $allowed_roles = [];
+    $defined_permissions = [];
     foreach ($rolesTable as $rolePermission) {
       $role = $rolePermission['role'];
       $permission = $rolePermission['permission'] . ' ' . $bundle . ' content';
       $this->roleHasPermission($role, $permission);
       $allowed_roles[] = $role;
+      $defined_permissions[] = $permission;
     }
     $allowed_roles[] = 'administrator';
+    $defined_permissions = array_unique($defined_permissions);
 
     $all_roles = $this->getRoles();
     foreach ($all_roles as $role) {
-      if (!in_array($role, $allowed_roles)) {
-        $this->roleDoesNotHavePermission($role, $permission);
+      foreach ($defined_permissions as $permission) {
+        if (!in_array($role, $allowed_roles)) {
+          $this->roleDoesNotHavePermission($role, $permission);
+        }
       }
     }
   }
