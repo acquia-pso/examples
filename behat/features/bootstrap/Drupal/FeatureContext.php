@@ -359,7 +359,7 @@ class FeatureContext extends RawDrupalContext {
    *
    */
   public function roleOnlyContentPermissions($bundle, TableNode $rolesTable) {
-    $allowed_roles = array();
+    $allowed_roles = [];
     foreach ($rolesTable as $rolePermission) {
       $role = $rolePermission['role'];
       $permission = $rolePermission['permission'] . ' ' . $bundle . ' content';
