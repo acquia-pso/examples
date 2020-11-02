@@ -451,4 +451,43 @@ class FeatureContext extends RawDrupalContext {
     return;
   }
 
+  /**
+   * Verify user has access to particular URL
+   * @Then /^I should have access of "([^"]*)"$/
+   */
+  public function iShouldHaveAccessOf($url) {
+    $this->getSession()->visit($this->locatePath($url));
+    $this->assertSession()
+      ->elementTextNotContains('css', 'title', 'Access denied');
+  }
+
+
+  /**
+   * Verify user doesn't has access to particular URL
+   * @Then /^I should not have access of "([^"]*)"$/
+   */
+  public function iShouldNotHaveAccessOf($url) {
+    $this->getSession()->visit($this->locatePath($url));
+    $this->assertSession()
+      ->elementTextContains('css', 'title', 'Access denied');
+  }
+
+  /**
+   * Assert title on the page
+   * @Then /^the page title should be "([^"]*)"$/
+   */
+  public function thePageTitleShouldBe($arg1) {
+    $titleElement = $this->getSession()->getPage()->find('css', 'head title');
+    if ($titleElement === NULL) {
+      throw new Exception('Page title element was not found!');
+    }
+    else {
+      $title = $titleElement->getText();
+      $expectedTitle = $arg1;
+      if ($expectedTitle !== $title) {
+        throw new Exception("Incorrect title! Expected:$expectedTitle | Actual:$title ");
+      }
+    }
+  }
+
 }
