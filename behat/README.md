@@ -155,3 +155,10 @@ After creating a node / media item, navigate to it in the session's browser.
 * Examples:
    * Then I visit the last created node.
    * Then I visit the last created media.
+
+#### Assert Theme
+   
+Assert the current theme of the site.
+   
+* Examples:
+   * Then I should see "<theme_machine_name>" theme is applied.
