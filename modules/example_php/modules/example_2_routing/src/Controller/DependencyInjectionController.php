@@ -5,13 +5,13 @@ namespace Drupal\example_2_routing\Controller;
 use Drupal\Core\Session\AccountProxy;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Controller\ControllerBase;
 
 /**
  * @file
  * Provides advanced hello world message functionality.
  */
 
-use Drupal\Core\Controller\ControllerBase;
 
 /**
  * Class HelloWorldController.
