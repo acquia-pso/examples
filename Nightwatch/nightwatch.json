@@ -1,0 +1,45 @@
+  {
+  "src_folders" : ["Tests"],
+  "page_objects_path": "page-objects",
+  "globals_path" : "globals.js",
+
+  "webdriver" : {
+    "start_process": true,
+    "server_path": "node_modules/chromedriver/bin/chromedriver",
+    "port": 9515
+  },
+
+  "test_settings" : {
+    "default" : {
+
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "chromeOptions" : {
+          "args" : [
+            "window-size=1920,1080",
+            "headless"
+          ]
+        }
+      },
+
+      "screenshots" : {
+        "enabled" : true,
+        "on_failure" : true,
+        "on_error" : true,
+        "path" : "screenshots/"
+      }
+    },
+
+    "dev" : {
+      "globals" : {
+        "dev_site_url" : "https://example-devurl.com/user/login"
+      }
+    },
+
+    "staging" : {
+      "globals" : {
+        "staging_site_url" : "https://example-stagingurl.com/user/login"
+      }
+    }
+  }
+}
