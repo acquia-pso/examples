@@ -490,4 +490,18 @@ class FeatureContext extends RawDrupalContext {
     }
   }
 
+
+   * Verify the current theme applied.
+   *
+   * @param  $theme_name - Machine name of the theme.
+   *
+   * @Then /^I should see "([^"]*)" theme is applied$/
+   */
+  public function iShouldSeeThemeIsApplied($theme_name) {
+    $theme_applied = $this->getSession()
+      ->evaluateScript("drupalSettings.ajaxPageState.theme");
+    Assert::assertEquals($theme_name, $theme_applied);
+  }
+
+
 }

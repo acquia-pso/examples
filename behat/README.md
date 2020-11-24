@@ -170,3 +170,12 @@ Verify page title
    
 * Examples:
   * Then the page title should be "<TITLE>"
+
+
+#### Assert Theme
+   
+Assert the current theme of the site.
+   
+* Examples:
+   * Then I should see "<theme_machine_name>" theme is applied.
+
