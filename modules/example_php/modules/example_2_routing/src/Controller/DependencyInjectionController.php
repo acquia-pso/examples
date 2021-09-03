@@ -4,7 +4,6 @@ namespace Drupal\example_2_routing\Controller;
 
 use Drupal\Core\Session\AccountProxy;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
@@ -18,7 +17,7 @@ use Drupal\Core\Controller\ControllerBase;
  *
  * @package Drupal\example_2_routing\Controller
  */
-class HelloWorldController extends ControllerBase {
+class DependencyInjectionController extends ControllerBase {
 
   /**
    * Drupal\Core\Session\AccountProxy definition.
@@ -30,9 +29,8 @@ class HelloWorldController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(AccountProxy $current_user, EntityTypeManager $entity_type_manager) {
+  public function __construct(AccountProxy $current_user) {
     $this->currentUser = $current_user;
-    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -41,8 +39,7 @@ class HelloWorldController extends ControllerBase {
   public static function create(ContainerInterface $container) {
 
     return new static(
-      $container->get('current_user'),
-      $container->get('entity_type.manager')
+      $container->get('current_user')
     );
   }
 
@@ -53,10 +50,8 @@ class HelloWorldController extends ControllerBase {
    *   Markup.
    */
   public function hello() {
-    $user = $this->entityTypeManager()->getStorage('user');
-    $my = $user->load($this->currentUser->id());
-    if ($my->uid->value > 0) {
-      return ['#markup' => "Hello " . $my->name->value];
+    if ($this->currentUser->isAuthenticated()) {
+      return ['#markup' => "Hello " . $this->currentUser->getDisplayName()];
     }
     else {
       return ['#markup' => "Hello Anonymous"];

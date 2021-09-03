@@ -2,8 +2,6 @@
 
 namespace Drupal\example_2_routing\Controller;
 
-use Drupal\user\Entity\User;
-
 /**
  * @file
  * Provides advanced hello world message functionality.
@@ -26,9 +24,8 @@ class HelloWorldController extends ControllerBase {
    */
   public function hello() {
     $current_user = \Drupal::currentUser();
-    $user = User::load($current_user->id());
-    if ($user->uid->vale > 0) {
-      return ['#markup' => "Hello " . $user->name->value];
+    if ($current_user->isAuthenticated()) {
+      return ['#markup' => "Hello " . $current_user->getDisplayName()];
     }
     else {
       return ['#markup' => "Hello Anonymous"];
