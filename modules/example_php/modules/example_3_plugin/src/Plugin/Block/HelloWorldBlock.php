@@ -2,9 +2,11 @@
 
 namespace Drupal\example_3_plugin\Plugin\Block;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Block\BlockPluginInterface;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a Social Links block.
@@ -15,14 +17,24 @@ use Drupal\Core\Form\FormStateInterface;
  *   category = @Translation("GovCon")
  * )
  */
-class HelloWorldBlock extends BlockBase implements BlockPluginInterface {
+class HelloWorldBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * {@inheritdoc}
    */
-  public function blockForm($form, FormStateInterface $form_state) {
-    $form = parent::blockForm($form, $form_state);
-    return $form;
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function blockAccess(AccountInterface $account) {
+    return AccessResult::allowedIfHasPermission($account, 'access content');
   }
 
   /**
