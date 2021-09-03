@@ -3,8 +3,9 @@
 namespace Drupal\example_4_plugin\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a Hello Advanced block.
@@ -15,28 +16,49 @@ use Drupal\Core\Form\FormStateInterface;
  *   category = @Translation("GovCon")
  * )
  */
-class HelloAdvancedBlock extends BlockBase implements BlockPluginInterface {
+class HelloAdvancedBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'session' => NULL,
+      'person' => NULL,
+      'text' => NULL,
+    ];
+  }
 
   /**
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
     $form = parent::blockForm($form, $form_state);
-    $config = $this->getConfiguration();
     $form['session'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Session Name'),
-      '#default_value' => isset($config['session']) ? $config['session'] : '',
+      '#default_value' => $this->configuration['session'],
     ];
     $form['person'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Person Name'),
-      '#default_value' => isset($config['person']) ? $config['person'] : '',
+      '#default_value' => $this->configuration['person'],
     ];
     $form['text'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Greeting'),
-      '#default_value' => isset($config['text']) ? $config['text'] : '',
+      '#default_value' => $this->configuration['text'],
     ];
     return $form;
   }
@@ -74,9 +96,9 @@ class HelloAdvancedBlock extends BlockBase implements BlockPluginInterface {
     $config = $this->getConfiguration();
     return [
       '#theme' => 'helloadvanced',
-      '#text' => isset($config['text']) ? $config['text'] : NULL,
-      '#person' => isset($config['person']) ? $config['person'] : NULL,
-      '#session' => isset($config['session']) ? $config['session'] : NULL,
+      '#text' => $this->configuration['text'],
+      '#person' => $this->configuration['person'],
+      '#session' => $this->configuration['session'],
     ];
   }
 
