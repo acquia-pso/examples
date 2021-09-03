@@ -4,3 +4,9 @@ examples.advancedhello:
     _controller: '\Drupal\example_2_routing\Controller\HelloWorldController::hello'
   requirements:
     _permission: 'access content'
+examples.dependencyhello:
+  path: '/dependencyhello'
+  defaults:
+    _controller: '\Drupal\example_2_routing\Controller\DependencyInjectionController::hello'
+  requirements:
+    _permission: 'access content'
