@@ -155,6 +155,22 @@ After creating a node / media item, navigate to it in the session's browser.
 * Examples:
    * Then I visit the last created node.
    * Then I visit the last created media.
+   
+#### Verify access to URL
+   
+Verify user has access to particular URL
+   
+* Examples:
+   * Then I should have access to "<URL>"
+   * Then I should not have access to "<URL>"
+   
+#### Assert Page title
+   
+Verify page title
+   
+* Examples:
+  * Then the page title should be "<TITLE>"
+
 
 #### Assert Theme
    
@@ -162,3 +178,4 @@ Assert the current theme of the site.
    
 * Examples:
    * Then I should see "<theme_machine_name>" theme is applied.
+
